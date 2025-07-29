@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact - Smart Health Center</title>
+
+  <!-- Font Awesome CDN for icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+  <!-- Embedded CSS -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: #0a66c2;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+
+    header {
+      background-color: #00796b;
+      color: white;
+      padding: 20px 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      padding-left: 20px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+      padding-top: 10px;
+    }
+
+    nav a {
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #ffeb3b;
+    }
+
+    .contact-section {
+      background-color: #ffffff;
+      padding: 40px 20px;
+    }
+
+    .contact-section h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+      color: #00796b;
+      text-align: center;
+    }
+
+    .contact-section p {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 30px auto;
+      color: #555;
+    }
+
+    .contact-content {
+      display: flex;
+      gap: 40px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .contact-form {
+      flex: 1 1 45%;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      resize: vertical;
+    }
+
+    .contact-form button {
+      padding: 12px;
+      background-color: #00796b;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .contact-form button:hover {
+      background-color: #004d40;
+    }
+
+    .contact-info {
+      flex: 1 1 45%;
+      background-color: #f1f1f1;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .contact-info h3 {
+      color: #00796b;
+      margin-bottom: 5px;
+      margin-top: 20px;
+    }
+
+    .contact-info p {
+      margin-bottom: 10px;
+    }
+
+    .social-links a {
+      display: inline-block;
+      margin: 6px 0;
+      color: #00796b;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .social-links a i {
+      margin-right: 8px;
+    }
+
+    .social-links a:hover {
+      color: #004d40;
+    }
+
+    @media screen and (max-width: 768px) {
+      .contact-content {
+        flex-direction: column;
+      }
+
+      nav {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .logo {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .contact-form,
+      .contact-info {
+        flex: 1 1 100%;
+      }
+
+      .contact-section h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">Smart Health Center</div>
+   
+  </header>
+
+  <section class="contact-section">
+    <div class="container">
+      <h1>Contact Us</h1>
+      <p>Need medical support, have health-related queries, or want to book an appointment? We're here to help!</p>
+
+      <div class="contact-content">
+        <form class="contact-form" action="mailto:smarthealthcenter@example.com" method="POST" enctype="text/plain">
+          <input type="text" name="name" placeholder="Your Name" required />
+          <input type="email" name="email" placeholder="yourname@example.com" required />
+          <textarea name="message" placeholder="Your Message or Query" rows="5" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+
+        <div class="contact-info">
+          <h3>📍 Location</h3>
+          <p>Smart Health Center, Pune, Maharashtra, India</p>
+
+          <h3>📧 Email</h3>
+          <p><a href="mailto:smarthealthcenter@example.com">smarthealthcenter@example.com</a></p>
+
+          <h3>📞 Phone</h3>
+          <p>+91 98765 43210</p>
+
+          <h3>🔗 Follow Us</h3>
+          <div class="social-links">
+            <a href="https://www.facebook.com/smarthealthcenter" target="_blank" class="social-icon"><i class="fab fa-facebook"></i> Facebook</a><br />
+            <a href="https://www.instagram.com/smarthealthcenter" target="_blank" class="social-icon"><i class="fab fa-instagram"></i> Instagram</a><br />
+            <a href="https://www.linkedin.com/company/smarthealthcenter" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i> LinkedIn</a><br />
+            <a href="mailto:smarthealthcenter@example.com" class="social-icon"><i class="fas fa-envelope"></i> Email</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

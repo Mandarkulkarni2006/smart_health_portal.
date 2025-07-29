@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Symptom Checker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1000px;
+      height: 300px;
+      margin: auto;
+      margin-top: 50px;
+      background: #fff;
+      padding: 30px;
+      padding-top: 50px;
+      
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      color: rgb(233, 43, 233);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    margin-bottom: 50px;
+    top
+    }
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    input[type="text"], input[type="number"] {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .symptom-btn {
+      display: inline-block;
+      padding: 8px 12px;
+      margin: 5px;
+      background-color: #e0e0e0;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .symptom-btn.selected {
+      background-color: #007bff;
+      color: white;
+    }
+    .selected-container {
+      margin-top: 20px;
+    }
+    .tag {
+      margin: 10px 0;
+      padding: 10px;
+      background: #f1f1f1;
+      border-radius: 8px;
+    }
+    .severity-slider {
+      width: 100%;
+    }
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      background: #007bff;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Symptom Checker</h2>
+    <div class="input-group">
+      <input type="text" id="userName" placeholder="Your Name">
+      <input type="number" id="userAge" placeholder="Age">
+    </div>
+
+    <div id="symptomList">
+      <button class="symptom-btn" data-icon="🌡️">🌡️ Fever</button>
+      <button class="symptom-btn" data-icon="🤧">🤧 Cough</button>
+      <button class="symptom-btn" data-icon="🤕">🤕 Headache</button>
+      <button class="symptom-btn" data-icon="😤">😤 Shortness of Breath</button>
+      <button class="symptom-btn" data-icon="😴">😴 Fatigue</button>
+    </div>
+
+    <div class="selected-container">
+      <h3>Selected Symptoms</h3>
+      <div id="selectedSymptoms"></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" id="clearButton">Clear</button>
+      <button class="btn" id="downloadBtn">Download PDF</button>
+    </div>
+  </div>
+
+  <script>
+    const symptomButtons = document.querySelectorAll('.symptom-btn');
+    const selectedContainer = document.getElementById('selectedSymptoms');
+    const clearButton = document.getElementById('clearButton');
+
+    function getSuggestion(symptom, severity) {
+      severity = parseInt(severity);
+      switch (symptom.toLowerCase()) {
+        case '🌡️ fever':
+          if (severity <= 3) return "Stay hydrated and rest.";
+          if (severity <= 7) return "Monitor temperature and take paracetamol.";
+          return "High fever – consult a doctor immediately.";
+
+        case '🤧 cough':
+          if (severity <= 3) return "Use warm fluids and honey.";
+          if (severity <= 7) return "Use cough syrup and rest.";
+          return "Persistent cough – may need medical help.";
+
+        case '🤕 headache':
+          if (severity <= 3) return "Try resting and drinking water.";
+          if (severity <= 7) return "Use a painkiller if needed.";
+          return "Severe headache – consult a neurologist.";
+
+        case '😤 shortness of breath':
+          if (severity <= 3) return "Avoid exertion and rest.";
+          if (severity <= 7) return "Monitor – consult doctor if worsens.";
+          return "Severe – Seek emergency medical help.";
+
+        case '😴 fatigue':
+          if (severity <= 3) return "Get proper sleep.";
+          if (severity <= 7) return "Take a break and rest.";
+          return "Extreme fatigue – check for underlying causes.";
+
+        default:
+          return "Monitor symptoms and consult if condition worsens.";
+      }
+    }
+
+    function updateSelectedSymptoms() {
+      selectedContainer.innerHTML = '';
+      const selected = [...symptomButtons].filter(btn => btn.classList.contains('selected'));
+      selected.forEach(btn => {
+        const emoji = btn.dataset.icon;
+        const name = btn.textContent.trim();
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'tag';
+
+        const label = document.createElement('div');
+        label.textContent = `${emoji} ${name}`;
+
+        const slider = document.createElement('input');
+        slider.type = 'range';
+        slider.min = '0';
+        slider.max = '10';
+        slider.value = '5';
+        slider.className = 'severity-slider';
+
+        const valueDisplay = document.createElement('span');
+        valueDisplay.textContent = ` Severity: ${slider.value}`;
+
+        const suggestionDisplay = document.createElement('div');
+        suggestionDisplay.textContent = getSuggestion(name, slider.value);
+        suggestionDisplay.style.fontStyle = 'italic';
+        suggestionDisplay.style.fontSize = '0.9em';
+
+        slider.addEventListener('input', () => {
+          valueDisplay.textContent = ` Severity: ${slider.value}`;
+          suggestionDisplay.textContent = getSuggestion(name, slider.value);
+        });
+
+        wrapper.appendChild(label);
+        wrapper.appendChild(slider);
+        wrapper.appendChild(valueDisplay);
+        wrapper.appendChild(suggestionDisplay);
+        selectedContainer.appendChild(wrapper);
+      });
+    }
+
+    symptomButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        button.classList.toggle('selected');
+        updateSelectedSymptoms();
+      });
+    });
+
+    clearButton.addEventListener('click', () => {
+      symptomButtons.forEach(btn => btn.classList.remove('selected'));
+      updateSelectedSymptoms();
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const name = document.getElementById('userName').value || "(No Name)";
+      const age = document.getElementById('userAge').value || "(No Age)";
+
+      doc.setFontSize(16);
+      doc.text("Symptom Checker Report", 20, 20);
+      doc.setFontSize(12);
+      doc.text(`Name: ${name}`, 20, 30);
+      doc.text(`Age: ${age}`, 20, 40);
+
+      const sliders = document.querySelectorAll('.severity-slider');
+      sliders.forEach((slider, i) => {
+        const parent = slider.parentElement;
+        const label = parent.querySelector('div').textContent;
+        const severity = slider.value;
+        const suggestion = getSuggestion(label, severity);
+
+        doc.text(`${label} – Severity: ${severity}/10`, 20, 60 + i * 20);
+        doc.setFontSize(11);
+        doc.text(`Suggestion: ${suggestion}`, 22, 67 + i * 20);
+        doc.setFontSize(12);
+      });
+
+      doc.save("symptom_report.pdf");
+    });
+  </script>
+</body>
+</html>
